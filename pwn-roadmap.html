@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PWN Mastery Roadmap</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="roadmap.css">
+</head>
+<body>
+
+<header>
+  <span class="skull">💀</span>
+  <h1>PWN MASTERY</h1>
+  <p class="subtitle">Binary Exploitation — Complete Roadmap</p>
+  <div class="terminal-bar">
+    <div class="dot dot-r"></div>
+    <div class="dot dot-y"></div>
+    <div class="dot dot-g"></div>
+    &nbsp;&nbsp;<span class="prompt">root@pwn:~$</span> <span style="color:var(--text)"> ./roadmap.sh --level=god</span><span class="blink"></span>
+  </div>
+</header>
+
+<div class="progress-section">
+  <div class="progress-bar-wrap">
+    <div class="progress-top">
+      <span>skill acquisition</span>
+      <span class="progress-count" id="prog-text">0 / 0 topics checked</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+    <div class="checklist-hint">click on any card → expand → check off topics as you learn them</div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<div class="phase-nav">
+  <button class="phase-btn active" onclick="showAll(this)">ALL PHASES</button>
+  <button class="phase-btn" onclick="showPhase('p1', this)">01 · FOUNDATIONS</button>
+  <button class="phase-btn" onclick="showPhase('p2', this)">02 · STACK</button>
+  <button class="phase-btn" onclick="showPhase('p3', this)">03 · HEAP</button>
+  <button class="phase-btn" onclick="showPhase('p4', this)">04 · ADVANCED</button>
+  <button class="phase-btn" onclick="showPhase('p5', this)">05 · KERNEL</button>
+  <button class="phase-btn" onclick="showPhase('p6', this)">06 · PRACTICE</button>
+</div>
+
+<div class="roadmap">
+
+<!-- ═══════════════════════════════ PHASE 1 ═══════════════════════════════ -->
+<div class="phase p1 show-all" id="phase-p1">
+  <div class="phase-header">
+    <div class="phase-num">01</div>
+    <div class="phase-info">
+      <h2>FOUNDATIONS</h2>
+      <p>The bedrock everything else is built on. Skip this and you'll hit a wall fast.</p>
+    </div>
+    <div class="phase-badge">beginner</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">⚙️</span>
+      <div class="card-title">C & Memory Model</div>
+      <div class="card-desc">Understand how C lays out memory — this is the language most vulnerable software is written in.</div>
+      <div class="card-topics">
+        <span class="tag">pointers</span><span class="tag">malloc/free</span><span class="tag">stack vs heap</span><span class="tag">undefined behavior</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Pointers, pointer arithmetic, double pointers</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Stack frames: local vars, return address, saved registers</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Heap: how malloc/free/calloc/realloc work</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Buffer: fixed-size arrays, off-by-one, out-of-bounds</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Undefined behavior and compiler optimizations</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Struct padding and alignment</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Book:</span> "C Programming Language" — Kernighan & Ritchie</div>
+          <div class="res-item"><span>Practice:</span> Write your own malloc/free from scratch</div>
+          <div class="res-item"><span>Tool:</span> Valgrind to see memory errors live</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🖥️</span>
+      <div class="card-title">x86 / x86-64 Assembly</div>
+      <div class="card-desc">You can't exploit what you can't read. Reading disassembly is the core skill of pwn.</div>
+      <div class="card-topics">
+        <span class="tag">registers</span><span class="tag">calling convention</span><span class="tag">stack ops</span><span class="tag">syscalls</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Registers: RAX, RBX, RCX, RDX, RSI, RDI, RSP, RBP, RIP</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Instruction set: MOV, PUSH, POP, CALL, RET, LEA, CMP, JMP, JNZ…</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">x86-64 calling convention (System V ABI)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Stack layout during a function call (prologue/epilogue)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Linux syscalls: numbers, arguments, int 0x80 vs syscall</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">NASM/GAS syntax; write and compile small shellcode by hand</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Site:</span> godbolt.org — see C→ASM live</div>
+          <div class="res-item"><span>Book:</span> "Computer Organization & Design" — Patterson & Hennessy</div>
+          <div class="res-item"><span>Wargame:</span> pwn.college ASM challenges</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🔧</span>
+      <div class="card-title">Linux Internals</div>
+      <div class="card-desc">Most CTF and real-world targets are Linux. Understand the OS layer under your exploit.</div>
+      <div class="card-topics">
+        <span class="tag">ELF format</span><span class="tag">processes</span><span class="tag">signals</span><span class="tag">file descriptors</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ELF sections: .text, .data, .bss, .plt, .got, .rodata</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Dynamic linking: PLT/GOT resolution mechanism</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Process memory map: /proc/PID/maps</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">File descriptors: stdin(0), stdout(1), stderr(2)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">fork, exec, dup2, pipe — used in shellcode & exploitation</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Signals and SIGSEGV/SIGABRT debugging</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Book:</span> "The Linux Programming Interface" — Kerrisk</div>
+          <div class="res-item"><span>Tool:</span> readelf, objdump, nm, strace, ltrace</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🐛</span>
+      <div class="card-title">GDB Debugging</div>
+      <div class="card-desc">GDB is your scalpel. Learn it deeply — every pwn challenge lives and dies in the debugger.</div>
+      <div class="card-topics">
+        <span class="tag">gdb-peda</span><span class="tag">pwndbg</span><span class="tag">gef</span><span class="tag">breakpoints</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Break, run, continue, step, next, finish</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Examine memory: x/32gx $rsp</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Watchpoints, catchpoints</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Install pwndbg or GEF — use heap/vmmap commands</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Scripting GDB with Python</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Remote debugging with gdbserver</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> pwndbg (github.com/pwndbg/pwndbg)</div>
+          <div class="res-item"><span>Tool:</span> GEF — extra heap commands</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🐍</span>
+      <div class="card-title">pwntools</div>
+      <div class="card-desc">The Swiss Army knife for exploit scripting. Learn it early, use it always.</div>
+      <div class="card-topics">
+        <span class="tag">process/remote</span><span class="tag">pack/unpack</span><span class="tag">ROP</span><span class="tag">cyclic</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">process() vs remote() — local vs CTF server</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">p64(), u64(), p32(), u32() — packing addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">cyclic() and cyclic_find() — finding offsets</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ELF() — symbols, got[], plt[], addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ROP() — building ROP chains programmatically</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">sendline, sendafter, recvuntil, interactive</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">context.arch, context.log_level</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Docs:</span> docs.pwntools.com</div>
+          <div class="res-item"><span>Practice:</span> Solve every challenge with a pwntools script</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🛡️</span>
+      <div class="card-title">Binary Protections</div>
+      <div class="card-desc">You can't bypass protections you don't understand. Know what each one does at the instruction level.</div>
+      <div class="card-topics">
+        <span class="tag">ASLR</span><span class="tag">NX/DEP</span><span class="tag">canary</span><span class="tag">PIE</span><span class="tag">RELRO</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">NX / DEP — non-executable stack, why shellcode injection fails</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Stack Canary — how it's placed, how it's checked, how it can leak</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ASLR — kernel-level randomization of base addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">PIE — position-independent executable, ASLR on code segment</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">RELRO (Partial vs Full) — GOT write protection</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">checksec tool — read its output fluently</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> checksec --file=binary</div>
+          <div class="res-item"><span>Read:</span> how-to-bypass-aslr on ctf101.org</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 2 ═══════════════════════════════ -->
+<div class="phase p2 show-all" id="phase-p2">
+  <div class="phase-header">
+    <div class="phase-num">02</div>
+    <div class="phase-info">
+      <h2>STACK EXPLOITATION</h2>
+      <p>The classic domain. Still appears in CTFs and real-world software every day.</p>
+    </div>
+    <div class="phase-badge">intermediate</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">💥</span>
+      <div class="card-title">Stack Buffer Overflow</div>
+      <div class="card-desc">The original exploit. Understanding this deeply unlocks almost everything else.</div>
+      <div class="card-topics">
+        <span class="tag">BOF</span><span class="tag">ret overwrite</span><span class="tag">offset finding</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Why overflow → control of return address</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Finding offset: cyclic pattern / manual calculation</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Overwriting return address to jump to win function</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">32-bit vs 64-bit stack differences</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">off-by-one overflows (e.g. fencepost errors)</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Lab:</span> pwn.college "Program Misuse" module</div>
+          <div class="res-item"><span>Platform:</span> pwnable.kr — fd, bof, collision</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🔫</span>
+      <div class="card-title">Shellcode & ret2shellcode</div>
+      <div class="card-desc">Writing position-independent code that spawns a shell — only when NX is off.</div>
+      <div class="card-topics">
+        <span class="tag">execve /bin/sh</span><span class="tag">NOP sled</span><span class="tag">no-NX</span><span class="tag">mprotect</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Write hand-crafted execve("/bin/sh") shellcode in ASM</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Null-byte avoidance in shellcode</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">NOP sled technique for reliability</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Alphanumeric / restricted character shellcode</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">mprotect() to re-enable executable stack at runtime</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> pwntools shellcraft module</div>
+          <div class="res-item"><span>Read:</span> shell-storm.org shellcode database</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">⛓️</span>
+      <div class="card-title">Return Oriented Programming (ROP)</div>
+      <div class="card-desc">The bypass for NX. Chain existing "gadgets" to build arbitrary computation.</div>
+      <div class="card-topics">
+        <span class="tag">gadgets</span><span class="tag">ret2libc</span><span class="tag">pop rdi</span><span class="tag">ropper</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">What is a gadget? `pop rdi; ret` etc.</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Building a ROP chain manually</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ret2libc: calling system("/bin/sh") via libc</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Finding gadgets: ROPgadget, ropper, pwntools ROP()</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Chaining gadgets to set registers (RDI, RSI, RDX)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ret2plt — calling plt functions via ROP</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">stack alignment (16-byte alignment in x64)</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> ROPgadget, ropper, pwntools ROP()</div>
+          <div class="res-item"><span>Lab:</span> ropemporium.com — dedicated ROP challenges</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">📐</span>
+      <div class="card-title">ASLR & PIE Bypass</div>
+      <div class="card-desc">Leak addresses to defeat randomization. Info leaks are the key to modern stack exploits.</div>
+      <div class="card-topics">
+        <span class="tag">info leak</span><span class="tag">libc base</span><span class="tag">one_gadget</span><span class="tag">ret2plt</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Using puts()/printf() to leak GOT entries</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Calculating libc base from leaked libc address</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Leaking PIE base via .text or .got addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">two-stage exploit: leak → restart → ROP with known addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">one_gadget — single gadget execve("/bin/sh") in libc</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">libc database & libc.rip for version identification</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> one_gadget, libc-database</div>
+          <div class="res-item"><span>Site:</span> libc.rip for remote libc matching</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🐾</span>
+      <div class="card-title">Stack Canary Bypass</div>
+      <div class="card-desc">Canaries don't stop exploits — they just require a leak first.</div>
+      <div class="card-topics">
+        <span class="tag">format string leak</span><span class="tag">brute force</span><span class="tag">thread canary</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How canary is placed on stack and checked at return</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Leaking canary via format string or read overflow</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Brute-force canary byte-by-byte (fork() servers)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">TLS canary storage: fs:[0x28]</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Thread-local canary reuse across forked children</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">📝</span>
+      <div class="card-title">Format String Attacks</div>
+      <div class="card-desc">printf() vulnerabilities are a swiss army knife — arbitrary read AND write.</div>
+      <div class="card-topics">
+        <span class="tag">%p leak</span><span class="tag">%n write</span><span class="tag">GOT overwrite</span><span class="tag">FSOP</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Why printf(user_input) is dangerous vs printf("%s", user_input)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">%p, %x — leak stack values / addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">%n, %hn, %hhn — write to arbitrary addresses</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Direct parameter access: %7$p</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">GOT overwrite via format string</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">pwntools fmtstr_payload() helper</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Lab:</span> pwnable.tw — start, orw, seethefile</div>
+          <div class="res-item"><span>Read:</span> formatstring-exploits on exploit.education</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 3 ═══════════════════════════════ -->
+<div class="phase p3 show-all" id="phase-p3">
+  <div class="phase-header">
+    <div class="phase-num">03</div>
+    <div class="phase-info">
+      <h2>HEAP EXPLOITATION</h2>
+      <p>The deep end. Heap bugs dominate modern CVEs and CTF hard-level challenges.</p>
+    </div>
+    <div class="phase-badge">hard</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🏗️</span>
+      <div class="card-title">glibc Allocator Internals</div>
+      <div class="card-desc">You cannot exploit the heap without understanding how ptmalloc2 manages memory.</div>
+      <div class="card-topics">
+        <span class="tag">chunks</span><span class="tag">bins</span><span class="tag">tcache</span><span class="tag">arenas</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">malloc_chunk structure: size, prev_size, fd, bk</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Chunk flags: PREV_INUSE, IS_MMAPPED, NON_MAIN_ARENA</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Bins: fastbins, unsorted, small, large bins</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">tcache (glibc ≥ 2.26): per-thread singly linked list</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Consolidation: backward & forward merging</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">top chunk (wilderness) and sbrk/mmap</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">heap_info and malloc_state structures</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Read:</span> "Understanding the heap by breaking it" — blackhat</div>
+          <div class="res-item"><span>Tool:</span> pwndbg: heap, bins, vis_heap_chunks</div>
+          <div class="res-item"><span>Read:</span> azeria-labs.com heap exploitation series</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">💀</span>
+      <div class="card-title">Use-After-Free (UAF)</div>
+      <div class="card-desc">Free a chunk, reuse its memory for a different object, get type confusion. Massively common in real CVEs.</div>
+      <div class="card-topics">
+        <span class="tag">dangling ptr</span><span class="tag">type confusion</span><span class="tag">tcache UAF</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Dangling pointer: free() but pointer not nulled</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Heap spray to control freed chunk's content</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">UAF for function pointer overwrite</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">UAF in tcache: directly control fd pointer</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Double-free as a special case of UAF</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🪝</span>
+      <div class="card-title">Heap Overflow & Overflow Techniques</div>
+      <div class="card-desc">Overflowing one chunk into the metadata of the next to corrupt allocator state.</div>
+      <div class="card-topics">
+        <span class="tag">chunk overlap</span><span class="tag">poison null byte</span><span class="tag">overlapping</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Overwriting next chunk's size/flags</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Poison null byte: shrink chunk to create overlap</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Chunk overlapping: control allocations inside freed chunk</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Off-by-one on heap: classic Linux kernel CVEs</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🎣</span>
+      <div class="card-title">Fastbin / tcache Dup & Poisoning</div>
+      <div class="card-desc">Corrupt bin linked lists to get malloc() to return arbitrary pointers.</div>
+      <div class="card-topics">
+        <span class="tag">fastbin dup</span><span class="tag">tcache poison</span><span class="tag">arbitrary alloc</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Fastbin double-free: trick allocator into returning same chunk twice</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">tcache dup: simpler double-free (weaker checks pre-glibc 2.29)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">tcache poisoning: overwrite fd to redirect next malloc</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Safe-linking (glibc ≥ 2.32): XOR mangling of fd pointers</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Bypassing safe-linking with heap address leak</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🌊</span>
+      <div class="card-title">Unsorted Bin Attack & Leaks</div>
+      <div class="card-desc">Leak libc addresses from heap and use unsorted bin to write large values.</div>
+      <div class="card-topics">
+        <span class="tag">libc leak</span><span class="tag">main_arena</span><span class="tag">unsorted attack</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How freed large chunks get fd/bk pointing to main_arena</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Leaking libc base by reading unsorted bin fd pointer</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Unsorted bin attack: write large value to arbitrary address</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">_IO_list_all and FSOP (file stream oriented programming)</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🏆</span>
+      <div class="card-title">House of Techniques</div>
+      <div class="card-desc">Named heap exploitation techniques — each a classic strategy with specific applicability.</div>
+      <div class="card-topics">
+        <span class="tag">house of spirit</span><span class="tag">house of force</span><span class="tag">house of orange</span><span class="tag">house of lore</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Spirit: free a fake fastbin chunk on stack/data</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Force: corrupt top chunk size → arbitrary malloc</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Lore: corrupt smallbin bk pointer</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Orange: corrupt top chunk → unsorted bin FSOP</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Einherjar: poison null byte to consolidate</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">House of Rabbit, Tangerine, Botcake (newer techniques)</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Repo:</span> how2heap — shellphish/how2heap on GitHub</div>
+          <div class="res-item"><span>Lab:</span> heap-exploitation.dhavalkapil.com</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 4 ═══════════════════════════════ -->
+<div class="phase p4 show-all" id="phase-p4">
+  <div class="phase-header">
+    <div class="phase-num">04</div>
+    <div class="phase-info">
+      <h2>ADVANCED TECHNIQUES</h2>
+      <p>Cutting-edge bypasses and specialized exploitation primitives used in top-tier CTFs.</p>
+    </div>
+    <div class="phase-badge">expert</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">📦</span>
+      <div class="card-title">SROP & Sigreturn Exploitation</div>
+      <div class="card-desc">Use the kernel's signal return mechanism to set ALL registers arbitrarily.</div>
+      <div class="card-topics">
+        <span class="tag">sigframe</span><span class="tag">rt_sigreturn</span><span class="tag">no gadgets needed</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How Linux handles signal delivery and sigreturn</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Crafting a fake sigcontext frame on the stack</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">SigreturnFrame in pwntools</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Useful when gadgets are scarce (small binary)</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🔁</span>
+      <div class="card-title">ret2dlresolve</div>
+      <div class="card-desc">Abuse the dynamic linker to resolve and call arbitrary library functions without knowing libc base.</div>
+      <div class="card-topics">
+        <span class="tag">no libc leak</span><span class="tag">dl-resolve</span><span class="tag">reloc</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How PLT/GOT resolution works step by step</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Elf32_Rel and Elf32_Sym structure layout</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Crafting fake relocation/symbol entries</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">pwntools Ret2dlresolvePayload helper</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🎭</span>
+      <div class="card-title">C++ Exploitation</div>
+      <div class="card-desc">Virtual function tables (vtables) are a goldmine for type confusion and UAF exploits.</div>
+      <div class="card-topics">
+        <span class="tag">vtable</span><span class="tag">RTTI</span><span class="tag">vtable hijack</span><span class="tag">type confusion</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How vtables work in memory for polymorphism</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Vtable pointer location in object layout</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">UAF to corrupt vtable pointer → code execution</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">RTTI (runtime type information) structure</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">exception handling exploitation (EHSP, LSDA)</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">📁</span>
+      <div class="card-title">File Stream Exploitation (FSOP)</div>
+      <div class="card-desc">Corrupt glibc's FILE structures to gain control when traditional heap targets are locked down.</div>
+      <div class="card-topics">
+        <span class="tag">_IO_FILE</span><span class="tag">vtable</span><span class="tag">IO_str_jumps</span><span class="tag">house of orange</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">_IO_FILE struct layout in glibc</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">_IO_list_all linked list of open streams</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Overwriting _IO vtable pointer (pre-glibc 2.24 check)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">IO_str_jumps and __GI__IO_str_overflow</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Crafting fake FILE struct for code exec on flush/fclose</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Modern FSOP: _IO_wfile_jumps, obstack</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🧩</span>
+      <div class="card-title">Sandbox Escape (seccomp)</div>
+      <div class="card-desc">When you can execute code but syscalls are filtered, you need to read/write around the filter.</div>
+      <div class="card-topics">
+        <span class="tag">seccomp-bpf</span><span class="tag">orw shellcode</span><span class="tag">syscall filter</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">How seccomp-bpf filters work</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">seccomp-tools to dump and analyze filters</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ORW shellcode: open → read → write flag to stdout</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Allowed syscall enumeration and bypass strategies</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">seccomp escape via prctl or filter inheritance</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Tool:</span> seccomp-tools (gem install seccomp-tools)</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🔐</span>
+      <div class="card-title">Race Conditions & TOCTOU</div>
+      <div class="card-desc">Time-of-check to time-of-use bugs — often found in privileged setuid binaries.</div>
+      <div class="card-topics">
+        <span class="tag">TOCTOU</span><span class="tag">race window</span><span class="tag">symlink race</span><span class="tag">pthread</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">TOCTOU: gap between access() check and open() use</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Symlink race to access privileged files</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Heap race conditions with pthreads</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Widening race windows with CPU pinning / userfaultfd</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 5 ═══════════════════════════════ -->
+<div class="phase p5 show-all" id="phase-p5">
+  <div class="phase-header">
+    <div class="phase-num">05</div>
+    <div class="phase-info">
+      <h2>KERNEL EXPLOITATION</h2>
+      <p>Ring 0. The deepest level. Bugs here give you the entire machine.</p>
+    </div>
+    <div class="phase-badge">elite</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">⚡</span>
+      <div class="card-title">Kernel Internals for Pwners</div>
+      <div class="card-desc">You must know the kernel's memory model before you can exploit it.</div>
+      <div class="card-topics">
+        <span class="tag">ring 0/3</span><span class="tag">page tables</span><span class="tag">slab allocator</span><span class="tag">cred struct</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Privilege levels: ring 0 (kernel) vs ring 3 (user)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">syscall entry/exit paths</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Linux slab/slub allocator (kmalloc, kfree)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">task_struct and cred struct layout</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">commit_creds(prepare_kernel_cred(0)) — privilege escalation primitive</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Kernel page-table isolation (KPTI)</span></li>
+        </ul>
+        <div class="resources">
+          <div class="res-label">📚 Resources</div>
+          <div class="res-item"><span>Lab:</span> pwn.college kernel exploitation module</div>
+          <div class="res-item"><span>Lab:</span> lkmpg — Linux Kernel Module Programming Guide</div>
+        </div>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">💣</span>
+      <div class="card-title">Kernel Bug Classes</div>
+      <div class="card-desc">Same classes as userland, but the primitives to exploit them differ significantly.</div>
+      <div class="card-topics">
+        <span class="tag">UAF</span><span class="tag">heap overflow</span><span class="tag">OOB r/w</span><span class="tag">double free</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Out-of-bounds read/write in kernel drivers</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Kernel UAF via race or reference counting bug</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Null pointer dereference (mmap_min_addr bypass)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Integer overflow leading to undersized allocation</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Uninitialized kernel stack/heap data leaks</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🛸</span>
+      <div class="card-title">Kernel Protections & Bypasses</div>
+      <div class="card-desc">SMEP, SMAP, KASLR, KPTI — understand what each stops and how to work around it.</div>
+      <div class="card-topics">
+        <span class="tag">SMEP</span><span class="tag">SMAP</span><span class="tag">KASLR</span><span class="tag">KPTI</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">SMEP: blocks kernel executing user-space pages</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">SMAP: blocks kernel reading/writing user-space pages</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">KASLR: randomizes kernel base (leak via /proc or timing)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">KPTI: separate page tables for user/kernel</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Kernel ROP: disable SMEP via CR4, then ret2usr</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">KROP with gadgets from kernel .text</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🧲</span>
+      <div class="card-title">Heap Grooming & Cross-Cache Attacks</div>
+      <div class="card-desc">Controlling slab allocator layout to place objects adjacent to each other.</div>
+      <div class="card-topics">
+        <span class="tag">slab grooming</span><span class="tag">cross-cache</span><span class="tag">msg_msg</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Kernel slab caches: kmalloc-32, kmalloc-64, etc.</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Spraying kernel objects to fill a slab</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">msg_msg, pipe_buffer, timerfd as spray primitives</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Cross-cache: overflow from one cache into another</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">DirtyPipe style techniques (2022)</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ PHASE 6 ═══════════════════════════════ -->
+<div class="phase p6 show-all" id="phase-p6">
+  <div class="phase-header">
+    <div class="phase-num">06</div>
+    <div class="phase-info">
+      <h2>PRACTICE & ECOSYSTEM</h2>
+      <p>Platforms, tools, and habits that turn knowledge into real skill.</p>
+    </div>
+    <div class="phase-badge">ongoing</div>
+  </div>
+  <div class="cards">
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🔍</span>
+      <div class="card-title">Essential Tools</div>
+      <div class="card-desc">The standard pwner's toolkit — know each one deeply.</div>
+      <div class="card-topics">
+        <span class="tag">gdb</span><span class="tag">ghidra</span><span class="tag">IDA</span><span class="tag">pwndbg</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">GDB + pwndbg: dynamic analysis, heap inspection</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Ghidra: free decompiler by NSA — reverse engineering</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">IDA Pro (or IDA Free): industry standard disassembler</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Binary Ninja: scriptable disassembler</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">angr: symbolic execution / automatic exploit finding</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ltrace/strace: trace library/system calls</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">checksec, ROPgadget, one_gadget, seccomp-tools</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🏋️</span>
+      <div class="card-title">Practice Platforms</div>
+      <div class="card-desc">Deliberate practice is everything. Solve challenges daily.</div>
+      <div class="card-topics">
+        <span class="tag">pwn.college</span><span class="tag">pwnable.kr</span><span class="tag">CTFtime</span><span class="tag">picoCTF</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">pwn.college — structured curriculum, best for beginners→advanced</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">pwnable.kr — classic wargame, many legendary challenges</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">pwnable.tw — harder than kr, excellent heap challenges</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ropemporium.com — dedicated ROP challenge series</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">exploit.education — Phoenix, Protostar VMs</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">CTFtime.org — find upcoming CTF competitions</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">picoCTF — beginner-friendly, great fundamentals</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">dreamhack.io — Korean platform, heap-heavy challenges</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">📖</span>
+      <div class="card-title">Reading Writeups</div>
+      <div class="card-desc">Top-tier pwners publish their thinking. Read every writeup you can find.</div>
+      <div class="card-topics">
+        <span class="tag">writeups</span><span class="tag">CVE analysis</span><span class="tag">blog posts</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">CTFtime.org writeups section — filter by pwn</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">ptr-yudai, st98, nyancat blogs (top Japanese pwners)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Project Zero blog — real-world vuln research</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">shellphish blog, perfect blue writeups</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Analyse at least one real CVE PoC per month</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <span class="card-icon">🧠</span>
+      <div class="card-title">Mindset & Methodology</div>
+      <div class="card-desc">The meta-skills that separate good pwners from great ones.</div>
+      <div class="card-topics">
+        <span class="tag">debugging loop</span><span class="tag">hypothesis</span><span class="tag">scripting</span>
+      </div>
+      <div class="card-expand">
+        <ul>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Always understand WHY an exploit works, not just that it works</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Form a hypothesis → test → inspect in GDB → refine</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Script everything from the start (pwntools)</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Keep a personal exploit template/notes repo</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Write writeups even for challenges you had to look up</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Join a CTF team — collaborative learning is faster</span></li>
+          <li class="check-row"><input type="checkbox"><span class="check-label">Read source code for glibc malloc — know it cold</span></li>
+        </ul>
+      </div>
+      <div class="toggle-hint">click to expand ↓</div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- end roadmap -->
+
+<footer>
+  <span class="glow-text">PWN</span> MASTERY ROADMAP &nbsp;·&nbsp; GENERATED FOR YOUR JOURNEY &nbsp;·&nbsp; <span class="glow-text">HACK THE PLANET</span>
+</footer>
+
+<script>
+  function toggleCard(card) {
+    const expand = card.querySelector('.card-expand');
+    expand.classList.toggle('open');
+    const hint = card.querySelector('.toggle-hint');
+    hint.textContent = expand.classList.contains('open') ? 'click to collapse ↑' : 'click to expand ↓';
+    updateProgress();
+  }
+
+  function showPhase(id, btn) {
+    document.querySelectorAll('.phase').forEach(p => {
+      p.classList.remove('visible', 'show-all');
+    });
+    document.getElementById('phase-' + id).classList.add('visible');
+    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function showAll(btn) {
+    document.querySelectorAll('.phase').forEach(p => {
+      p.classList.remove('visible');
+      p.classList.add('show-all');
+    });
+    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.check-row input[type="checkbox"]');
+    const checked = document.querySelectorAll('.check-row input[type="checkbox"]:checked');
+    const pct = all.length ? (checked.length / all.length) * 100 : 0;
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = checked.length + ' / ' + all.length + ' topics checked';
+  }
+
+  // Checkbox click handling
+  document.addEventListener('change', function(e) {
+    if (e.target.type === 'checkbox') {
+      const row = e.target.closest('.check-row');
+      if (e.target.checked) row.classList.add('checked');
+      else row.classList.remove('checked');
+      updateProgress();
+    }
+  });
+
+  // Prevent card toggle when clicking checkbox
+  document.addEventListener('click', function(e) {
+    if (e.target.type === 'checkbox' || e.target.classList.contains('check-label')) {
+      e.stopPropagation();
+    }
+  }, true);
+
+  updateProgress();
+</script>
+</body>
+</html>

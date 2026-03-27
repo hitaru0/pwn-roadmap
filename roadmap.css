@@ -1,0 +1,485 @@
+:root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --green: #00ff88;
+    --green2: #00cc66;
+    --red: #ff3c5a;
+    --cyan: #00d4ff;
+    --yellow: #ffd700;
+    --orange: #ff8c00;
+    --purple: #b96eff;
+    --dim: #1a2030;
+    --dimmer: #111820;
+    --text: #c8d8e8;
+    --text2: #6a8a9a;
+    --border: #1e3048;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Noise texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.4;
+  }
+
+  header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+
+  .skull {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    color: var(--green);
+    text-shadow: 0 0 30px rgba(0,255,136,0.5), 0 0 60px rgba(0,255,136,0.2);
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--text2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 0.75rem;
+    color: var(--text2);
+  }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-r { background: var(--red); }
+  .dot-y { background: var(--yellow); }
+  .dot-g { background: var(--green); }
+
+  .prompt { color: var(--green); font-family: 'Share Tech Mono'; }
+  .blink {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    margin-left: 4px;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* Phase navigation */
+  .phase-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto 10px;
+  }
+
+  .phase-btn {
+    background: var(--dimmer);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .phase-btn:hover, .phase-btn.active {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,255,136,0.05);
+    box-shadow: 0 0 12px rgba(0,255,136,0.2);
+  }
+
+  /* Main container */
+  .roadmap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Phase */
+  .phase {
+    margin-bottom: 40px;
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .phase.visible { display: block; }
+  .phase.show-all { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .phase-info h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .phase-info p {
+    font-size: 0.75rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .phase-badge {
+    margin-left: auto;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--dimmer);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.25s;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    transition: all 0.25s;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .card-desc {
+    font-size: 0.72rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .card-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .tag {
+    font-size: 0.6rem;
+    padding: 2px 7px;
+    border-radius: 1px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono';
+  }
+
+  .card-expand {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+
+  .card-expand.open { display: block; animation: fadeIn 0.3s ease; }
+
+  .card-expand ul { list-style: none; }
+  .card-expand li::before { content: '→ '; color: var(--green); }
+  .card-expand li { margin-bottom: 4px; }
+
+  .resources {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .res-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cyan);
+    margin-bottom: 6px;
+  }
+
+  .res-item {
+    font-size: 0.68rem;
+    color: var(--text2);
+    margin-bottom: 3px;
+  }
+
+  .res-item span { color: var(--yellow); }
+
+  .toggle-hint {
+    font-size: 0.6rem;
+    color: var(--text2);
+    text-align: right;
+    margin-top: 10px;
+    opacity: 0.6;
+  }
+
+  /* Color themes per phase */
+  .p1 .phase-num { color: var(--cyan); text-shadow: 0 0 20px rgba(0,212,255,0.4); }
+  .p1 .phase-info h2 { color: var(--cyan); }
+  .p1 .phase-badge { background: rgba(0,212,255,0.1); color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); }
+  .p1 .card::before { background: var(--cyan); }
+  .p1 .card:hover { border-color: rgba(0,212,255,0.4); box-shadow: 0 8px 32px rgba(0,212,255,0.1); }
+  .p1 .tag { background: rgba(0,212,255,0.08); color: var(--cyan); border: 1px solid rgba(0,212,255,0.2); }
+
+  .p2 .phase-num { color: var(--green); text-shadow: 0 0 20px rgba(0,255,136,0.4); }
+  .p2 .phase-info h2 { color: var(--green); }
+  .p2 .phase-badge { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+  .p2 .card::before { background: var(--green); }
+  .p2 .card:hover { border-color: rgba(0,255,136,0.4); box-shadow: 0 8px 32px rgba(0,255,136,0.1); }
+  .p2 .tag { background: rgba(0,255,136,0.08); color: var(--green); border: 1px solid rgba(0,255,136,0.2); }
+
+  .p3 .phase-num { color: var(--orange); text-shadow: 0 0 20px rgba(255,140,0,0.4); }
+  .p3 .phase-info h2 { color: var(--orange); }
+  .p3 .phase-badge { background: rgba(255,140,0,0.1); color: var(--orange); border: 1px solid rgba(255,140,0,0.3); }
+  .p3 .card::before { background: var(--orange); }
+  .p3 .card:hover { border-color: rgba(255,140,0,0.4); box-shadow: 0 8px 32px rgba(255,140,0,0.1); }
+  .p3 .tag { background: rgba(255,140,0,0.08); color: var(--orange); border: 1px solid rgba(255,140,0,0.2); }
+
+  .p4 .phase-num { color: var(--red); text-shadow: 0 0 20px rgba(255,60,90,0.4); }
+  .p4 .phase-info h2 { color: var(--red); }
+  .p4 .phase-badge { background: rgba(255,60,90,0.1); color: var(--red); border: 1px solid rgba(255,60,90,0.3); }
+  .p4 .card::before { background: var(--red); }
+  .p4 .card:hover { border-color: rgba(255,60,90,0.4); box-shadow: 0 8px 32px rgba(255,60,90,0.1); }
+  .p4 .tag { background: rgba(255,60,90,0.08); color: var(--red); border: 1px solid rgba(255,60,90,0.2); }
+
+  .p5 .phase-num { color: var(--purple); text-shadow: 0 0 20px rgba(185,110,255,0.4); }
+  .p5 .phase-info h2 { color: var(--purple); }
+  .p5 .phase-badge { background: rgba(185,110,255,0.1); color: var(--purple); border: 1px solid rgba(185,110,255,0.3); }
+  .p5 .card::before { background: var(--purple); }
+  .p5 .card:hover { border-color: rgba(185,110,255,0.4); box-shadow: 0 8px 32px rgba(185,110,255,0.1); }
+  .p5 .tag { background: rgba(185,110,255,0.08); color: var(--purple); border: 1px solid rgba(185,110,255,0.2); }
+
+  .p6 .phase-num { color: var(--yellow); text-shadow: 0 0 20px rgba(255,215,0,0.4); }
+  .p6 .phase-info h2 { color: var(--yellow); }
+  .p6 .phase-badge { background: rgba(255,215,0,0.1); color: var(--yellow); border: 1px solid rgba(255,215,0,0.3); }
+  .p6 .card::before { background: var(--yellow); }
+  .p6 .card:hover { border-color: rgba(255,215,0,0.4); box-shadow: 0 8px 32px rgba(255,215,0,0.1); }
+  .p6 .tag { background: rgba(255,215,0,0.08); color: var(--yellow); border: 1px solid rgba(255,215,0,0.2); }
+
+  /* Progress tracker */
+  .progress-section {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+  }
+
+  .progress-bar-wrap {
+    background: var(--dimmer);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.7rem;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .progress-count { color: var(--green); }
+
+  .bar-track {
+    height: 6px;
+    background: var(--dim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(0,255,136,0.4);
+  }
+
+  .checklist-hint {
+    font-size: 0.65rem;
+    color: var(--text2);
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  /* Checklist items inside card */
+  .check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+  }
+
+  .check-row input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+    margin-top: 3px;
+    accent-color: var(--green);
+    flex-shrink: 0;
+  }
+
+  .check-label {
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--text2);
+    transition: color 0.2s;
+  }
+
+  .check-row.checked .check-label {
+    color: var(--text2);
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  /* CTF platforms section */
+  .ctf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .ctf-card {
+    background: var(--dimmer);
+    border: 1px solid var(--border);
+    padding: 14px;
+    font-size: 0.72rem;
+  }
+
+  .ctf-name {
+    font-family: 'Share Tech Mono';
+    color: var(--green);
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+  }
+
+  .ctf-desc { color: var(--text2); line-height: 1.5; }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 0.65rem;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 20px;
+  }
+
+  .glow-text { color: var(--green); text-shadow: 0 0 10px rgba(0,255,136,0.4); }
+
+  @media (max-width: 600px) {
+    .cards { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+    .phase-nav { gap: 6px; }
+    .phase-btn { font-size: 0.6rem; padding: 5px 10px; }
+  }
