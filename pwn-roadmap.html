@@ -7,9 +7,9 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="roadmap.css">
+ <script src="roadmap.js"></script>
 </head>
 <body>
-
 <header>
   <span class="skull">💀</span>
   <h1>PWN MASTERY</h1>
@@ -847,60 +847,5 @@
 <footer>
   <span class="glow-text">PWN</span> MASTERY ROADMAP &nbsp;·&nbsp; GENERATED FOR YOUR JOURNEY &nbsp;·&nbsp; <span class="glow-text">HACK THE PLANET</span>
 </footer>
-
-<script>
-  function toggleCard(card) {
-    const expand = card.querySelector('.card-expand');
-    expand.classList.toggle('open');
-    const hint = card.querySelector('.toggle-hint');
-    hint.textContent = expand.classList.contains('open') ? 'click to collapse ↑' : 'click to expand ↓';
-    updateProgress();
-  }
-
-  function showPhase(id, btn) {
-    document.querySelectorAll('.phase').forEach(p => {
-      p.classList.remove('visible', 'show-all');
-    });
-    document.getElementById('phase-' + id).classList.add('visible');
-    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  function showAll(btn) {
-    document.querySelectorAll('.phase').forEach(p => {
-      p.classList.remove('visible');
-      p.classList.add('show-all');
-    });
-    document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  function updateProgress() {
-    const all = document.querySelectorAll('.check-row input[type="checkbox"]');
-    const checked = document.querySelectorAll('.check-row input[type="checkbox"]:checked');
-    const pct = all.length ? (checked.length / all.length) * 100 : 0;
-    document.getElementById('prog-bar').style.width = pct + '%';
-    document.getElementById('prog-text').textContent = checked.length + ' / ' + all.length + ' topics checked';
-  }
-
-  // Checkbox click handling
-  document.addEventListener('change', function(e) {
-    if (e.target.type === 'checkbox') {
-      const row = e.target.closest('.check-row');
-      if (e.target.checked) row.classList.add('checked');
-      else row.classList.remove('checked');
-      updateProgress();
-    }
-  });
-
-  // Prevent card toggle when clicking checkbox
-  document.addEventListener('click', function(e) {
-    if (e.target.type === 'checkbox' || e.target.classList.contains('check-label')) {
-      e.stopPropagation();
-    }
-  }, true);
-
-  updateProgress();
-</script>
 </body>
 </html>
